@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#15121d">
+<title>Los Juegos de la Clase</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#100e16;color:#fff;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer;border:0}
+header{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;background:#181520;position:sticky;top:0;z-index:5}
+h1{font-size:22px;margin:0} .sub{opacity:.65;font-size:12px;margin-top:3px}
+main{padding:18px;max-width:1100px;margin:auto}.classes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.classBtn,.student,.action,.nav{background:#25212f;color:#fff;border-radius:16px;padding:16px;font-weight:700}
+.classBtn{font-size:20px;min-height:80px}.classBtn:active,.student:active,.action:active{transform:scale(.98)}
+.hidden{display:none}.topbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.back{background:#25212f;color:#fff;border-radius:12px;padding:10px 14px}.pill{background:#302a3b;padding:8px 12px;border-radius:999px;font-size:13px}
+.bags{display:grid;grid-template-columns:1fr 1fr;gap:16px}.bag{border-radius:24px;padding:18px;min-height:270px;background:#211c29;border:1px solid #3b3348}
+.bag h2{margin:0 0 4px;font-size:20px}.green{border-color:#3b815d}.red{border-color:#9a4b59}.bagcount{opacity:.7;font-size:13px;margin-bottom:14px}
+.students{display:grid;grid-template-columns:1fr 1fr;gap:10px}.student{display:flex;justify-content:space-between;align-items:center;text-align:left;padding:13px}
+.student small{opacity:.6;font-weight:500}.pos{border-left:5px solid #56c48a}.neg{border-left:5px solid #e66d7d}
+.section{margin-top:18px}.section h3{margin:0 0 10px;font-size:15px;opacity:.8}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.action{padding:15px}.positive{background:#235b42}.negative{background:#6b2936}.gold{background:#5d4b1f}
+.panel{background:#211c29;border-radius:20px;padding:16px;margin-top:16px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #332d3c}.row:last-child{border-bottom:0}
+.modal{position:fixed;touch-action:manipulation;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}.modalbox{background:#211c29;border-radius:24px;padding:22px;width:min(520px,100%);text-align:center}
+.big{font-size:42px;font-weight:900;margin:20px 0}.winner{font-size:34px;font-weight:900}.close{background:#fff;color:#111;border-radius:12px;padding:12px 18px;font-weight:800}
+input{width:100%;padding:12px;border-radius:12px;border:1px solid #554c61;background:#15121d;color:#fff;margin:5px 0}
+@media(max-width:700px){.classes{grid-template-columns:repeat(3,1fr)}.bags{grid-template-columns:1fr}.students{grid-template-columns:1fr}.actions{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div><h1>⚔️ LOS JUEGOS DE LA CLASE</h1><div class="sub">Sistema anual de puntos y sorteos</div></div><button class="back hidden" id="homeBtn">Clases</button></header>
+<main>
+<section id="home"><h2>Selecciona tu clase</h2><div class="classes" id="classes"></div></section>
+<section id="app" class="hidden">
+<div class="topbar"><button class="back" id="back">← Clases</button><span class="pill" id="classTitle"></span><button class="back" id="manage">⚙️ Configurar</button></div>
+<div class="bags">
+<div class="bag green"><h2>🏆 BOLSA DE LOS GANADORES</h2><div class="bagcount" id="posCount"></div><div id="posList"></div></div>
+<div class="bag red"><h2>☠️ BOLSA DE LOS TRIBUTOS</h2><div class="bagcount" id="negCount"></div><div id="negList"></div></div>
+</div>
+<div class="section"><h3>Añadir punto: toca un nombre</h3><div class="students" id="students"></div></div>
+<div class="section"><h3>Acciones</h3><div class="actions">
+<button class="action positive" onclick="draw('pos','F')">🏆 Sorteo chica</button><button class="action positive" onclick="draw('pos','M')">🏆 Sorteo chico</button>
+<button class="action negative" onclick="draw('neg','F')">☠️ Tributo chica</button><button class="action negative" onclick="draw('neg','M')">☠️ Tributo chico</button>
+</div></div>
+<div class="panel"><b>📜 Historial de sorteos</b><div id="history"></div></div>
+<div class="panel"><b>↩️ Última acción</b><button class="action" style="float:right;padding:8px 12px" onclick="undo()">Deshacer</button><div id="lastAction" style="margin-top:12px;opacity:.7"></div><div style="clear:both"></div></div>
+</section>
+</main>
+<div id="modal" class="modal hidden"><div class="modalbox"><div id="modalTitle"></div><div class="big">⚔️</div><div class="winner" id="winner"></div><p id="modalInfo"></p><button class="close" onclick="closeModal()">Cerrar</button></div></div>
+<script>
+const KEY='ljc_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{classes:{}}, current=null, undoStack=[];
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function init(){for(let i=1;i<=9;i++)if(!db.classes[i])db.classes[i]={students:[],history:[],pos:{},neg:{}};save();renderClasses()}
+function renderClasses(){document.getElementById('classes').innerHTML=[1,2,3,4,5,6,7,8,9].map(i=>`<button class="classBtn" onclick="openClass(${i})">Clase ${i}</button>`).join('')}
+function openClass(i){current=i;document.getElementById('home').classList.add('hidden');document.getElementById('app').classList.remove('hidden');render()}
+function goHome(){current=null;document.getElementById('app').classList.add('hidden');document.getElementById('home').classList.remove('hidden')}
+function render(){let c=db.classes[current];document.getElementById('classTitle').textContent='Clase '+current;
+document.getElementById('students').innerHTML=c.students.length?c.students.map(s=>`<div class="student"><span>${s.name}<small> · ${s.gender==='F'?'♀':'♂'} · +${c.pos[s.id]||0} / -${c.neg[s.id]||0}</small></span><span><button onclick="point('${s.id}',1)">＋1</button> <button onclick="point('${s.id}',-1)">−1</button></span></div>`).join(''):`<div style="opacity:.6">Añade estudiantes desde ⚙️ Configurar.</div>`;
+let p=Object.entries(c.pos).reduce((a,[id,n])=>a+n,0),n=Object.entries(c.neg).reduce((a,[id,x])=>a+x,0);
+document.getElementById('posCount').textContent=p+' papeletas acumuladas';document.getElementById('negCount').textContent=n+' papeletas acumuladas';
+document.getElementById('posList').innerHTML=listBag(c,'pos');document.getElementById('negList').innerHTML=listBag(c,'neg');
+document.getElementById('history').innerHTML=c.history.length?c.history.map(h=>`<div class="row"><span>${h.date} · ${h.type==='pos'?'🏆 Ganadores':'☠️ Tributos'} · ${h.gender==='F'?'♀':'♂'}</span><b>${h.name}</b></div>`).join(''):'<div style="opacity:.6;margin-top:10px">Ningún sorteo todavía.</div>';
+document.getElementById('lastAction').textContent=undoStack.length?undoStack[undoStack.length-1].text:'Nessuna';}
+function listBag(c,t){let arr=Object.entries(c[t]).filter(x=>x[1]>0).map(([id,n])=>{let s=c.students.find(z=>z.id===id);return s?`<div class="row"><span>${s.name}</span><b>×${n}</b></div>`:''}).join('');return arr||'<div style="opacity:.5">Vacía</div>'}
+function point(id,v){let before=JSON.stringify(db),c=db.classes[current],t=v>0?'pos':'neg';c[t][id]=(c[t][id]||0)+1;undoStack.push({text:(v>0?'＋1 para ':'−1 para ')+(c.students.find(s=>s.id===id)?.name||''),state:before});save();render()}
+function undo(){let x=undoStack.pop();if(!x)return;db=JSON.parse(x.state);save();render()}
+function draw(t,g){let c=db.classes[current], pool=[];c.students.filter(s=>s.gender===g).forEach(s=>{for(let i=0;i<(c[t][s.id]||0);i++)pool.push(s)});if(!pool.length){showModal('Sin papeletas','No hay papeletas de este tipo para esta categoría.');return}
+let s=pool[Math.floor(Math.random()*pool.length)],h={date:new Date().toLocaleDateString('es-ES'),type:t,gender:g,name:s.name};c.history.push(h);save();showModal(t==='pos'?'🏆 GANADOR/A':'☠️ TRIBUTO',s.name,(g==='F'?'Chica':'Chico')+' · '+(c[t][s.id]||0)+' papeletas');}
+function showModal(a,b,d=''){document.getElementById('modalTitle').textContent=a;document.getElementById('winner').textContent=b;document.getElementById('modalInfo').textContent=d;document.getElementById('modal').classList.remove('hidden')}
+function closeModal(){document.getElementById('modal').classList.add('hidden');document.getElementById('modalTitle').innerHTML='';document.getElementById('winner').textContent='';document.getElementById('modalInfo').textContent='';render()}
+function manage(){let c=db.classes[current];let html=`<h2>⚙️ Configuración · Clase ${current}</h2><p style="opacity:.7">Añade estudiantes una vez. Los puntos no se borran.</p><input id="newName" placeholder="Nombre y apellido"><select id="newGender" style="width:100%;padding:12px;border-radius:12px;background:#15121d;color:#fff;margin:5px 0"><option value="F">Chica</option><option value="M">Chico</option></select><button class="action positive" onclick="addStudent()">＋ Añadir</button><div class="panel" id="studentManage">${c.students.map(s=>`<div class="row"><span>${s.name} · ${s.gender==='F'?'♀':'♂'}</span><button onclick="removeStudent('${s.id}')">Eliminar</button></div>`).join('')}</div><button class="close" onclick="closeModal()">Cerrar</button>`;document.getElementById('modalTitle').innerHTML=html;document.getElementById('winner').textContent='';document.getElementById('modalInfo').textContent='';document.getElementById('modal').classList.remove('hidden')}
+function addStudent(){let n=document.getElementById('newName').value.trim(),g=document.getElementById('newGender').value;if(!n)return;let c=db.classes[current];c.students.push({id:crypto.randomUUID(),name:n,gender:g});save();manage();render()}
+function removeStudent(id){if(!confirm('¿Eliminar este estudiante de la clase?'))return;let c=db.classes[current];c.students=c.students.filter(s=>s.id!==id);save();manage();render()}
+document.getElementById('back').onclick=goHome;document.getElementById('homeBtn').onclick=goHome;document.getElementById('manage').onclick=manage;init();
+</script>
+</body></html>

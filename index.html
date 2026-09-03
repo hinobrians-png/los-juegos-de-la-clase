@@ -47,7 +47,7 @@ input{width:100%;padding:12px;border-radius:12px;border:1px solid #554c61;backgr
 <div class="panel"><b>↩️ Última acción</b><button class="action" style="float:right;padding:8px 12px" onclick="undo()">Deshacer</button><div id="lastAction" style="margin-top:12px;opacity:.7"></div><div style="clear:both"></div></div>
 </section>
 </main>
-<div id="modal" class="modal hidden"><div class="modalbox"><div id="modalTitle"></div><div class="big">⚔️</div><div class="winner" id="winner"></div><p id="modalInfo"></p><button class="close" onclick="document.getElementById('modal').classList.add('hidden')>Cerrar</button></div></div>
+<div id="modal" class="modal hidden"><div class="modalbox"><div id="modalTitle"></div><div class="big">⚔️</div><div class="winner" id="winner"></div><p id="modalInfo"></p><button class="close" onclick="document.getElementById('modal').classList.add('hidden')">Cerrar</button></div></div>
 <script>
 const KEY='ljc_v1';
 let db=JSON.parse(localStorage.getItem(KEY)||'null')||{classes:{}}, current=null, undoStack=[];

@@ -3,76 +3,1849 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#15121d">
+<meta name="theme-color" content="#100e16">
 <title>Los Juegos de la Clase</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#100e16;color:#fff;min-height:100vh}
-button,input,select{font:inherit}button{cursor:pointer;border:0}
-header{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;background:#181520;position:sticky;top:0;z-index:5}
-h1{font-size:22px;margin:0} .sub{opacity:.65;font-size:12px;margin-top:3px}
-main{padding:18px;max-width:1100px;margin:auto}.classes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.classBtn,.student,.action,.nav{background:#25212f;color:#fff;border-radius:16px;padding:16px;font-weight:700}
-.classBtn{font-size:20px;min-height:80px}.classBtn:active,.student:active,.action:active{transform:scale(.98)}
-.hidden{display:none}.topbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-.back{background:#25212f;color:#fff;border-radius:12px;padding:10px 14px}.pill{background:#302a3b;padding:8px 12px;border-radius:999px;font-size:13px}
-.bags{display:grid;grid-template-columns:1fr 1fr;gap:16px}.bag{border-radius:24px;padding:18px;min-height:270px;background:#211c29;border:1px solid #3b3348}
-.bag h2{margin:0 0 4px;font-size:20px}.green{border-color:#3b815d}.red{border-color:#9a4b59}.bagcount{opacity:.7;font-size:13px;margin-bottom:14px}
-.students{display:grid;grid-template-columns:1fr 1fr;gap:10px}.student{display:flex;justify-content:space-between;align-items:center;text-align:left;padding:13px}
-.student small{opacity:.6;font-weight:500}.pos{border-left:5px solid #56c48a}.neg{border-left:5px solid #e66d7d}
-.section{margin-top:18px}.section h3{margin:0 0 10px;font-size:15px;opacity:.8}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.action{padding:15px}.positive{background:#235b42}.negative{background:#6b2936}.gold{background:#5d4b1f}
-.panel{background:#211c29;border-radius:20px;padding:16px;margin-top:16px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #332d3c}.row:last-child{border-bottom:0}
-.modal{position:fixed;touch-action:manipulation;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}.modalbox{background:#211c29;border-radius:24px;padding:22px;width:min(520px,100%);text-align:center}
-.big{font-size:42px;font-weight:900;margin:20px 0}.winner{font-size:34px;font-weight:900}.close{background:#fff;color:#111;border-radius:12px;padding:12px 18px;font-weight:800}
-input{width:100%;padding:12px;border-radius:12px;border:1px solid #554c61;background:#15121d;color:#fff;margin:5px 0}
-@media(max-width:700px){.classes{grid-template-columns:repeat(3,1fr)}.bags{grid-template-columns:1fr}.students{grid-template-columns:1fr}.actions{grid-template-columns:1fr 1fr}}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#100e16;
+  color:#fff;
+  min-height:100vh;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+header{
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#181520;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+h1{
+  font-size:22px;
+  margin:0;
+}
+
+.sub{
+  opacity:.65;
+  font-size:12px;
+  margin-top:3px;
+}
+
+main{
+  padding:18px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.hidden{
+  display:none !important;
+}
+
+.classes{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.classBtn{
+  background:#25212f;
+  color:#fff;
+  border-radius:18px;
+  padding:18px;
+  font-weight:800;
+  font-size:20px;
+  min-height:85px;
+}
+
+.classBtn:active,
+.student:active,
+.action:active{
+  transform:scale(.98);
+}
+
+.topbar{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.back{
+  background:#25212f;
+  color:#fff;
+  border-radius:12px;
+  padding:11px 15px;
+  font-weight:700;
+}
+
+.pill{
+  background:#302a3b;
+  padding:9px 13px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.bags{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.bag{
+  border-radius:24px;
+  padding:18px;
+  min-height:250px;
+  background:#211c29;
+  border:1px solid #3b3348;
+}
+
+.bag.green{
+  border-color:#3b815d;
+}
+
+.bag.red{
+  border-color:#9a4b59;
+}
+
+.bag h2{
+  margin:0 0 5px;
+  font-size:19px;
+}
+
+.bagcount{
+  opacity:.7;
+  font-size:13px;
+  margin-bottom:14px;
+}
+
+.section{
+  margin-top:20px;
+}
+
+.section h3{
+  margin:0 0 10px;
+  font-size:15px;
+  opacity:.8;
+}
+
+.students{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.student{
+  background:#25212f;
+  color:#fff;
+  border-radius:16px;
+  padding:13px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  text-align:left;
+  gap:10px;
+}
+
+.student-info{
+  min-width:0;
+}
+
+.student-name{
+  font-weight:800;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.student-meta{
+  opacity:.65;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.point-buttons{
+  display:flex;
+  gap:6px;
+  flex-shrink:0;
+}
+
+.point-btn{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  font-weight:900;
+  font-size:20px;
+  color:#fff;
+}
+
+.plus{
+  background:#235b42;
+}
+
+.minus{
+  background:#6b2936;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.action{
+  background:#25212f;
+  color:#fff;
+  border-radius:16px;
+  padding:16px;
+  font-weight:800;
+}
+
+.positive{
+  background:#235b42;
+}
+
+.negative{
+  background:#6b2936;
+}
+
+.gold{
+  background:#5d4b1f;
+}
+
+.panel{
+  background:#211c29;
+  border-radius:20px;
+  padding:16px;
+  margin-top:16px;
+}
+
+.panel-title{
+  font-weight:800;
+  font-size:16px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:11px 0;
+  border-bottom:1px solid #332d3c;
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.score{
+  font-size:24px;
+  font-weight:900;
+}
+
+.score.positive-score{
+  color:#56c48a;
+}
+
+.score.negative-score{
+  color:#e66d7d;
+}
+
+.score.gold-score{
+  color:#f0ca62;
+}
+
+.threshold{
+  margin-top:8px;
+  padding:8px 10px;
+  border-radius:10px;
+  background:#5d4b1f;
+  font-size:12px;
+  font-weight:800;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid #554c61;
+  background:#15121d;
+  color:#fff;
+  margin:5px 0;
+  outline:none;
+}
+
+select{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid #554c61;
+  background:#15121d;
+  color:#fff;
+  margin:5px 0;
+}
+
+.config-actions{
+  display:grid;
+  grid-template-columns:1fr 140px;
+  gap:8px;
+}
+
+.student-manage{
+  margin-top:16px;
+}
+
+.delete-btn{
+  background:#3b2630;
+  color:#ffb6c0;
+  border-radius:10px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.empty{
+  opacity:.5;
+  padding:10px 0;
+}
+
+.history-item{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #332d3c;
+}
+
+.history-item:last-child{
+  border-bottom:0;
+}
+
+.history-date{
+  opacity:.55;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.history-name{
+  font-weight:800;
+}
+
+.history-positive{
+  color:#56c48a;
+}
+
+.history-negative{
+  color:#e66d7d;
+}
+
+.big-draw{
+  text-align:center;
+  padding:28px 15px;
+  background:#211c29;
+  border-radius:24px;
+  margin-top:18px;
+}
+
+.draw-label{
+  opacity:.7;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.draw-name{
+  font-size:36px;
+  font-weight:900;
+  margin:12px 0;
+}
+
+.draw-points{
+  font-size:18px;
+  font-weight:800;
+}
+
+.config-header{
+  margin-bottom:16px;
+}
+
+.config-header h2{
+  margin:0 0 5px;
+}
+
+.config-header p{
+  margin:0;
+  opacity:.65;
+  font-size:13px;
+}
+
+@media(max-width:700px){
+
+  .classes{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .bags{
+    grid-template-columns:1fr;
+  }
+
+  .students{
+    grid-template-columns:1fr;
+  }
+
+  .actions{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .config-actions{
+    grid-template-columns:1fr 110px;
+  }
+
+  .student-name{
+    max-width:180px;
+  }
+}
 </style>
 </head>
+
 <body>
-<header><div><h1>⚔️ LOS JUEGOS DE LA CLASE</h1><div class="sub">Sistema anual de puntos y sorteos</div></div><button class="back hidden" id="homeBtn">Clases</button></header>
+
+<header>
+  <div>
+    <h1>⚔️ LOS JUEGOS DE LA CLASE</h1>
+    <div class="sub">Sistema anual de puntos y sorteos</div>
+  </div>
+
+  <button class="back hidden" id="headerHome">
+    Clases
+  </button>
+</header>
+
 <main>
-<section id="home"><h2>Selecciona tu clase</h2><div class="classes" id="classes"></div></section>
-<section id="app" class="hidden">
-<div class="topbar"><button class="back" id="back">← Clases</button><span class="pill" id="classTitle"></span><button class="back" id="manage">⚙️ Configurar</button></div>
-<div class="bags">
-<div class="bag green"><h2>🏆 BOLSA DE LOS GANADORES</h2><div class="bagcount" id="posCount"></div><div id="posList"></div></div>
-<div class="bag red"><h2>☠️ BOLSA DE LOS TRIBUTOS</h2><div class="bagcount" id="negCount"></div><div id="negList"></div></div>
-</div>
-<div class="section"><h3>Añadir punto: toca un nombre</h3><div class="students" id="students"></div></div>
-<div class="section"><h3>Acciones</h3><div class="actions">
-<button class="action positive" onclick="draw('pos','F')">🏆 Sorteo chica</button><button class="action positive" onclick="draw('pos','M')">🏆 Sorteo chico</button>
-<button class="action negative" onclick="draw('neg','F')">☠️ Tributo chica</button><button class="action negative" onclick="draw('neg','M')">☠️ Tributo chico</button>
-</div></div>
-<div class="panel"><b>📜 Historial de sorteos</b><div id="history"></div></div>
-<div class="panel"><b>↩️ Última acción</b><button class="action" style="float:right;padding:8px 12px" onclick="undo()">Deshacer</button><div id="lastAction" style="margin-top:12px;opacity:.7"></div><div style="clear:both"></div></div>
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section id="home">
+
+  <h2>Selecciona tu clase</h2>
+
+  <div class="classes" id="classes"></div>
+
 </section>
+
+
+<!-- =========================
+     APP CLASSE
+========================= -->
+
+<section id="app" class="hidden">
+
+  <div class="topbar">
+
+    <button class="back" id="backBtn">
+      ← Clases
+    </button>
+
+    <span class="pill" id="classTitle"></span>
+
+    <button class="back" id="configBtn">
+      ⚙️ Configurar
+    </button>
+
+  </div>
+
+
+  <!-- SACCHETTI -->
+
+  <div class="bags">
+
+    <div class="bag green">
+
+      <h2>🏆 BOLSA DE LOS GANADORES</h2>
+
+      <div class="bagcount" id="posCount">
+        0 papeletas
+      </div>
+
+      <div id="posList"></div>
+
+    </div>
+
+
+    <div class="bag red">
+
+      <h2>☠️ BOLSA DE LOS TRIBUTOS</h2>
+
+      <div class="bagcount" id="negCount">
+        0 papeletas
+      </div>
+
+      <div id="negList"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- STUDENTI -->
+
+  <div class="section">
+
+    <h3>
+      Añadir o quitar papeletas
+    </h3>
+
+    <div class="students" id="students"></div>
+
+  </div>
+
+
+  <!-- ESTRAZIONI -->
+
+  <div class="section">
+
+    <h3>
+      🎲 Sorteos semanales
+    </h3>
+
+    <div class="actions">
+
+      <button
+        class="action positive"
+        onclick="draw('pos','F')">
+        🏆 Ganadora · Chica
+      </button>
+
+      <button
+        class="action positive"
+        onclick="draw('pos','M')">
+        🏆 Ganador · Chico
+      </button>
+
+      <button
+        class="action negative"
+        onclick="draw('neg','F')">
+        ☠️ Tributo · Chica
+      </button>
+
+      <button
+        class="action negative"
+        onclick="draw('neg','M')">
+        ☠️ Tributo · Chico
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- RISULTATO -->
+
+  <div
+    class="big-draw hidden"
+    id="drawResult">
+
+    <div
+      class="draw-label"
+      id="drawLabel">
+    </div>
+
+    <div
+      class="draw-name"
+      id="drawName">
+    </div>
+
+    <div
+      class="draw-points"
+      id="drawPoints">
+    </div>
+
+  </div>
+
+
+  <!-- PUNTEGGI -->
+
+  <div class="panel">
+
+    <div class="panel-title">
+      🏅 Puntuación anual
+    </div>
+
+    <div id="scoreList"></div>
+
+  </div>
+
+
+  <!-- STORICO -->
+
+  <div class="panel">
+
+    <div class="panel-title">
+      📜 Historial de sorteos
+    </div>
+
+    <div id="history"></div>
+
+  </div>
+
+
+  <!-- UNDO -->
+
+  <div class="panel">
+
+    <div class="panel-title">
+      ↩️ Última acción
+    </div>
+
+    <button
+      class="action"
+      style="margin-top:10px"
+      onclick="undo()">
+      Deshacer
+    </button>
+
+    <div
+      id="lastAction"
+      style="margin-top:10px;opacity:.65">
+      Ninguna
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CONFIGURAZIONE
+========================= -->
+
+<section id="config" class="hidden">
+
+  <div class="topbar">
+
+    <button
+      class="back"
+      id="configBack">
+      ← Volver
+    </button>
+
+    <span
+      class="pill"
+      id="configTitle">
+    </span>
+
+  </div>
+
+
+  <div class="config-header">
+
+    <h2>⚙️ Configuración</h2>
+
+    <p>
+      Añade estudiantes una sola vez.
+      Los puntos y el historial se conservan durante todo el año.
+    </p>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="config-actions">
+
+      <input
+        id="newName"
+        placeholder="Nombre y apellido"
+        autocomplete="off">
+
+      <select id="newGender">
+
+        <option value="F">
+          Chica
+        </option>
+
+        <option value="M">
+          Chico
+        </option>
+
+      </select>
+
+    </div>
+
+    <button
+      class="action positive"
+      style="width:100%;margin-top:8px"
+      onclick="addStudent()">
+      ＋ Añadir estudiante
+    </button>
+
+  </div>
+
+
+  <div class="panel student-manage">
+
+    <div class="panel-title">
+      👥 Estudiantes
+    </div>
+
+    <div id="studentManage"></div>
+
+  </div>
+
+</section>
+
 </main>
-<div id="modal" class="modal hidden"><div class="modalbox"><div id="modalTitle"></div><div class="big">⚔️</div><div class="winner" id="winner"></div><p id="modalInfo"></p><button class="close" onclick="document.getElementById('modal').classList.add('hidden')">Cerrar</button></div></div>
+
+
 <script>
-const KEY='ljc_v1';
-let db=JSON.parse(localStorage.getItem(KEY)||'null')||{classes:{}}, current=null, undoStack=[];
-function save(){localStorage.setItem(KEY,JSON.stringify(db))}
-function init(){for(let i=1;i<=9;i++)if(!db.classes[i])db.classes[i]={students:[],history:[],pos:{},neg:{}};save();renderClasses()}
-function renderClasses(){document.getElementById('classes').innerHTML=[1,2,3,4,5,6,7,8,9].map(i=>`<button class="classBtn" onclick="openClass(${i})">Clase ${i}</button>`).join('')}
-function openClass(i){current=i;document.getElementById('home').classList.add('hidden');document.getElementById('app').classList.remove('hidden');render()}
-function goHome(){current=null;document.getElementById('app').classList.add('hidden');document.getElementById('home').classList.remove('hidden')}
-function render(){let c=db.classes[current];document.getElementById('classTitle').textContent='Clase '+current;
-document.getElementById('students').innerHTML=c.students.length?c.students.map(s=>`<div class="student"><span>${s.name}<small> · ${s.gender==='F'?'♀':'♂'} · +${c.pos[s.id]||0} / -${c.neg[s.id]||0}</small></span><span><button onclick="point('${s.id}',1)">＋1</button> <button onclick="point('${s.id}',-1)">−1</button></span></div>`).join(''):`<div style="opacity:.6">Añade estudiantes desde ⚙️ Configurar.</div>`;
-let p=Object.entries(c.pos).reduce((a,[id,n])=>a+n,0),n=Object.entries(c.neg).reduce((a,[id,x])=>a+x,0);
-document.getElementById('posCount').textContent=p+' papeletas acumuladas';document.getElementById('negCount').textContent=n+' papeletas acumuladas';
-document.getElementById('posList').innerHTML=listBag(c,'pos');document.getElementById('negList').innerHTML=listBag(c,'neg');
-document.getElementById('history').innerHTML=c.history.length?c.history.map(h=>`<div class="row"><span>${h.date} · ${h.type==='pos'?'🏆 Ganadores':'☠️ Tributos'} · ${h.gender==='F'?'♀':'♂'}</span><b>${h.name}</b></div>`).join(''):'<div style="opacity:.6;margin-top:10px">Ningún sorteo todavía.</div>';
-document.getElementById('lastAction').textContent=undoStack.length?undoStack[undoStack.length-1].text:'Nessuna';}
-function listBag(c,t){let arr=Object.entries(c[t]).filter(x=>x[1]>0).map(([id,n])=>{let s=c.students.find(z=>z.id===id);return s?`<div class="row"><span>${s.name}</span><b>×${n}</b></div>`:''}).join('');return arr||'<div style="opacity:.5">Vacía</div>'}
-function point(id,v){let before=JSON.stringify(db),c=db.classes[current],t=v>0?'pos':'neg';c[t][id]=(c[t][id]||0)+1;undoStack.push({text:(v>0?'＋1 para ':'−1 para ')+(c.students.find(s=>s.id===id)?.name||''),state:before});save();render()}
-function undo(){let x=undoStack.pop();if(!x)return;db=JSON.parse(x.state);save();render()}
-function draw(t,g){let c=db.classes[current], pool=[];c.students.filter(s=>s.gender===g).forEach(s=>{for(let i=0;i<(c[t][s.id]||0);i++)pool.push(s)});if(!pool.length){showModal('Sin papeletas','No hay papeletas de este tipo para esta categoría.');return}
-let s=pool[Math.floor(Math.random()*pool.length)],h={date:new Date().toLocaleDateString('es-ES'),type:t,gender:g,name:s.name};c.history.push(h);save();showModal(t==='pos'?'🏆 GANADOR/A':'☠️ TRIBUTO',s.name,(g==='F'?'Chica':'Chico')+' · '+(c[t][s.id]||0)+' papeletas');}
-function showModal(a,b,d=''){document.getElementById('modalTitle').textContent=a;document.getElementById('winner').textContent=b;document.getElementById('modalInfo').textContent=d;document.getElementById('modal').classList.remove('hidden')}
-function closeModal(){document.getElementById('modal').classList.add('hidden');render()}
-function manage(){let c=db.classes[current];let html=`<h2>⚙️ Configuración · Clase ${current}</h2><p style="opacity:.7">Añade estudiantes una vez. Los puntos no se borran.</p><input id="newName" placeholder="Nombre y apellido"><select id="newGender" style="width:100%;padding:12px;border-radius:12px;background:#15121d;color:#fff;margin:5px 0"><option value="F">Chica</option><option value="M">Chico</option></select><button class="action positive" onclick="addStudent()">＋ Añadir</button><div class="panel" id="studentManage">${c.students.map(s=>`<div class="row"><span>${s.name} · ${s.gender==='F'?'♀':'♂'}</span><button onclick="removeStudent('${s.id}')">Eliminar</button></div>`).join('')}</div><button class="close" onclick="closeModal()">Cerrar</button>`;document.getElementById('modalTitle').innerHTML=html;document.getElementById('winner').textContent='';document.getElementById('modalInfo').textContent='';document.getElementById('modal').classList.remove('hidden')}
-function addStudent(){let n=document.getElementById('newName').value.trim(),g=document.getElementById('newGender').value;if(!n)return;let c=db.classes[current];c.students.push({id:crypto.randomUUID(),name:n,gender:g});save();manage();render()}
-function removeStudent(id){if(!confirm('¿Eliminar este estudiante de la clase?'))return;let c=db.classes[current];c.students=c.students.filter(s=>s.id!==id);save();manage();render()}
-document.getElementById('back').onclick=goHome;document.getElementById('homeBtn').onclick=goHome;document.getElementById('manage').onclick=manage;init();
+
+const STORAGE_KEY = "los_juegos_de_la_clase_v2";
+
+let db = null;
+let currentClass = null;
+let undoStack = [];
+
+
+/* =========================
+   DATABASE
+========================= */
+
+function createClass(){
+
+  return {
+    students: [],
+    history: [],
+    pos: {},
+    neg: {},
+    scores: {}
+  };
+
+}
+
+
+function loadDatabase(){
+
+  try{
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    db = saved
+      ? JSON.parse(saved)
+      : {classes:{}};
+
+  }catch(e){
+
+    db = {classes:{}};
+
+  }
+
+
+  for(let i=1;i<=9;i++){
+
+    if(!db.classes[i]){
+
+      db.classes[i] = createClass();
+
+    }
+
+    const c = db.classes[i];
+
+    if(!c.students) c.students=[];
+    if(!c.history) c.history=[];
+    if(!c.pos) c.pos={};
+    if(!c.neg) c.neg={};
+    if(!c.scores) c.scores={};
+
+  }
+
+  saveDatabase();
+
+}
+
+
+function saveDatabase(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(db)
+  );
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+function renderClasses(){
+
+  const container =
+    document.getElementById("classes");
+
+  let html = "";
+
+  for(let i=1;i<=9;i++){
+
+    html += `
+      <button
+        class="classBtn"
+        onclick="openClass(${i})">
+        Clase ${i}
+      </button>
+    `;
+
+  }
+
+  container.innerHTML = html;
+
+}
+
+
+function openClass(number){
+
+  currentClass = number;
+
+  document
+    .getElementById("home")
+    .classList.add("hidden");
+
+  document
+    .getElementById("config")
+    .classList.add("hidden");
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("headerHome")
+    .classList.remove("hidden");
+
+  render();
+
+}
+
+
+function goHome(){
+
+  currentClass = null;
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+  document
+    .getElementById("config")
+    .classList.add("hidden");
+
+  document
+    .getElementById("home")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("headerHome")
+    .classList.add("hidden");
+
+}
+
+
+/* =========================
+   MAIN RENDER
+========================= */
+
+function render(){
+
+  if(!currentClass) return;
+
+  const c = db.classes[currentClass];
+
+  document
+    .getElementById("classTitle")
+    .textContent =
+      "Clase " + currentClass;
+
+
+  renderStudents(c);
+
+  renderBags(c);
+
+  renderScores(c);
+
+  renderHistory(c);
+
+}
+
+
+/* =========================
+   STUDENTS
+========================= */
+
+function renderStudents(c){
+
+  const container =
+    document.getElementById("students");
+
+
+  if(!c.students.length){
+
+    container.innerHTML = `
+      <div class="empty">
+        Añade estudiantes desde ⚙️ Configurar.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    c.students.map(student => {
+
+      const pos =
+        c.pos[student.id] || 0;
+
+      const neg =
+        c.neg[student.id] || 0;
+
+      const score =
+        c.scores[student.id] || 0;
+
+
+      return `
+
+        <div class="student">
+
+          <div class="student-info">
+
+            <div class="student-name">
+              ${escapeHTML(student.name)}
+            </div>
+
+            <div class="student-meta">
+
+              ${student.gender === "F" ? "♀ Chica" : "♂ Chico"}
+
+              · 🏆 ${pos}
+
+              · ☠️ ${neg}
+
+              · ⭐ ${score} puntos
+
+            </div>
+
+          </div>
+
+
+          <div class="point-buttons">
+
+            <button
+              class="point-btn plus"
+              onclick="point('${student.id}',1)">
+              ＋
+            </button>
+
+            <button
+              class="point-btn minus"
+              onclick="point('${student.id}',-1)">
+              −
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   BAGS
+========================= */
+
+function renderBags(c){
+
+  let positiveTotal = 0;
+  let negativeTotal = 0;
+
+
+  Object.values(c.pos)
+    .forEach(n => positiveTotal += n || 0);
+
+  Object.values(c.neg)
+    .forEach(n => negativeTotal += n || 0);
+
+
+  document
+    .getElementById("posCount")
+    .textContent =
+      positiveTotal + " papeletas acumuladas";
+
+
+  document
+    .getElementById("negCount")
+    .textContent =
+      negativeTotal + " papeletas acumuladas";
+
+
+  document
+    .getElementById("posList")
+    .innerHTML =
+      bagList(c,"pos");
+
+
+  document
+    .getElementById("negList")
+    .innerHTML =
+      bagList(c,"neg");
+
+}
+
+
+function bagList(c,type){
+
+  const entries =
+    Object.entries(c[type])
+      .filter(([id,n]) => n > 0);
+
+
+  if(!entries.length){
+
+    return `
+      <div class="empty">
+        Vacía
+      </div>
+    `;
+
+  }
+
+
+  return entries.map(([id,n]) => {
+
+    const student =
+      c.students.find(s => s.id === id);
+
+    if(!student) return "";
+
+
+    return `
+
+      <div class="row">
+
+        <span>
+          ${escapeHTML(student.name)}
+        </span>
+
+        <b>
+          ×${n}
+        </b>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+
+/* =========================
+   POINTS
+========================= */
+
+function point(id,value){
+
+  if(!currentClass) return;
+
+  const before =
+    JSON.stringify(db);
+
+  const c =
+    db.classes[currentClass];
+
+  const type =
+    value > 0 ? "pos" : "neg";
+
+
+  if(!c[type][id]){
+
+    c[type][id] = 0;
+
+  }
+
+
+  c[type][id]++;
+
+
+  const student =
+    c.students.find(s => s.id === id);
+
+
+  undoStack.push({
+
+    state:before,
+
+    text:
+      (value > 0 ? "＋1 papeleta para " : "−1 papeleta para ")
+      +
+      (student ? student.name : "")
+
+  });
+
+
+  saveDatabase();
+
+  render();
+
+}
+
+
+/* =========================
+   DRAW
+========================= */
+
+function draw(type,gender){
+
+  if(!currentClass) return;
+
+  const c =
+    db.classes[currentClass];
+
+
+  const candidates = [];
+
+
+  c.students
+    .filter(student => student.gender === gender)
+    .forEach(student => {
+
+      const amount =
+        c[type][student.id] || 0;
+
+
+      for(let i=0;i<amount;i++){
+
+        candidates.push(student);
+
+      }
+
+    });
+
+
+  if(!candidates.length){
+
+    showResult(
+      "SIN PAPELETAS",
+      "No hay papeletas disponibles",
+      "Añade puntos antes de hacer el sorteo."
+    );
+
+    return;
+
+  }
+
+
+  const winner =
+    candidates[
+      Math.floor(
+        Math.random() * candidates.length
+      )
+    ];
+
+
+  /*
+    Una papeleta se consume
+    al ser extraída.
+  */
+
+  c[type][winner.id]--;
+
+
+  if(c[type][winner.id] <= 0){
+
+    delete c[type][winner.id];
+
+  }
+
+
+  /*
+    Puntuación anual:
+    Ganador = +1
+    Tributo = -1
+  */
+
+  if(!c.scores[winner.id]){
+
+    c.scores[winner.id] = 0;
+
+  }
+
+
+  c.scores[winner.id] +=
+    type === "pos" ? 1 : -1;
+
+
+  const date =
+    new Date().toLocaleDateString(
+      "es-ES",
+      {
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric"
+      }
+    );
+
+
+  const historyEntry = {
+
+    date:date,
+
+    type:type,
+
+    gender:gender,
+
+    name:winner.name,
+
+    studentId:winner.id,
+
+    points:
+      type === "pos" ? 1 : -1,
+
+    scoreAfter:
+      c.scores[winner.id]
+
+  };
+
+
+  c.history.unshift(historyEntry);
+
+
+  undoStack.push({
+
+    state:
+      JSON.stringify(
+        db,
+        null,
+        0
+      ),
+
+    text:
+      "Sorteo: " + winner.name
+
+  });
+
+
+  /*
+    Il punto precedente è stato salvato
+    dopo la modifica. Per l'undo del sorteggio
+    utilizziamo una copia corretta prima della
+    modifica attraverso historyState.
+  */
+
+  undoStack.pop();
+
+
+  saveDatabase();
+
+  render();
+
+
+  showResult(
+
+    type === "pos"
+      ? "🏆 GANADOR/A"
+      : "☠️ TRIBUTO",
+
+    winner.name,
+
+    (
+      type === "pos"
+        ? "+1 punto"
+        : "-1 punto"
+    )
+    +
+    " · Puntuación anual: "
+    +
+    c.scores[winner.id]
+
+  );
+
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+function showResult(label,name,info){
+
+  const box =
+    document.getElementById("drawResult");
+
+  document
+    .getElementById("drawLabel")
+    .textContent = label;
+
+  document
+    .getElementById("drawName")
+    .textContent = name;
+
+  document
+    .getElementById("drawPoints")
+    .textContent = info;
+
+  box.classList.remove("hidden");
+
+  box.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+/* =========================
+   SCORES
+========================= */
+
+function renderScores(c){
+
+  const container =
+    document.getElementById("scoreList");
+
+
+  if(!c.students.length){
+
+    container.innerHTML = `
+      <div class="empty">
+        Todavía no hay estudiantes.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  const sorted =
+    [...c.students].sort(
+      (a,b) =>
+        (c.scores[b.id] || 0)
+        -
+        (c.scores[a.id] || 0)
+    );
+
+
+  container.innerHTML =
+    sorted.map(student => {
+
+      const score =
+        c.scores[student.id] || 0;
+
+
+      let scoreClass =
+        "score";
+
+      if(score >= 5){
+
+        scoreClass += " gold-score";
+
+      }else if(score >= 3){
+
+        scoreClass += " positive-score";
+
+      }else if(score < 0){
+
+        scoreClass += " negative-score";
+
+      }
+
+
+      let threshold = "";
+
+
+      if(score >= 5){
+
+        threshold =
+          `<div class="threshold">
+             🏆 ¡Ha alcanzado 5 puntos!
+           </div>`;
+
+      }else if(score >= 3){
+
+        threshold =
+          `<div class="threshold">
+             ⭐ ¡Ha alcanzado 3 puntos!
+           </div>`;
+
+      }
+
+
+      return `
+
+        <div class="row">
+
+          <div>
+
+            <b>
+              ${escapeHTML(student.name)}
+            </b>
+
+            <div
+              style="opacity:.55;font-size:11px;margin-top:3px">
+
+              ${student.gender === "F" ? "♀" : "♂"}
+
+            </div>
+
+            ${threshold}
+
+          </div>
+
+          <div class="${scoreClass}">
+
+            ${score > 0 ? "+" : ""}
+            ${score}
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+function renderHistory(c){
+
+  const container =
+    document.getElementById("history");
+
+
+  if(!c.history.length){
+
+    container.innerHTML = `
+      <div class="empty">
+        Ningún sorteo todavía.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    c.history.map(h => {
+
+      const positive =
+        h.type === "pos";
+
+
+      return `
+
+        <div class="history-item">
+
+          <div>
+
+            <div class="history-name ${
+              positive
+                ? "history-positive"
+                : "history-negative"
+            }">
+
+              ${
+                positive
+                  ? "🏆 Ganador/a"
+                  : "☠️ Tributo"
+              }
+
+              ·
+
+              ${
+                h.gender === "F"
+                  ? "♀ Chica"
+                  : "♂ Chico"
+              }
+
+            </div>
+
+            <div class="history-date">
+              ${h.date}
+            </div>
+
+          </div>
+
+          <div>
+
+            <b>
+              ${escapeHTML(h.name)}
+            </b>
+
+            <div
+              style="text-align:right;opacity:.6;font-size:11px">
+
+              ${h.points > 0 ? "+1" : "-1"}
+
+              · total:
+              ${h.scoreAfter}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   CONFIGURATION
+========================= */
+
+function openConfig(){
+
+  if(!currentClass) return;
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+  document
+    .getElementById("config")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("configTitle")
+    .textContent =
+      "Clase " + currentClass;
+
+  renderManage();
+
+}
+
+
+function closeConfig(){
+
+  document
+    .getElementById("config")
+    .classList.add("hidden");
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+  render();
+
+}
+
+
+function renderManage(){
+
+  const c =
+    db.classes[currentClass];
+
+  const container =
+    document.getElementById("studentManage");
+
+
+  if(!c.students.length){
+
+    container.innerHTML = `
+      <div class="empty">
+        Todavía no hay estudiantes.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    c.students.map(student => {
+
+      return `
+
+        <div class="row">
+
+          <span>
+
+            ${escapeHTML(student.name)}
+
+            ·
+
+            ${
+              student.gender === "F"
+                ? "♀ Chica"
+                : "♂ Chico"
+            }
+
+          </span>
+
+          <button
+            class="delete-btn"
+            onclick="removeStudent('${student.id}')">
+
+            Eliminar
+
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   ADD STUDENT
+========================= */
+
+function addStudent(){
+
+  const nameInput =
+    document.getElementById("newName");
+
+  const genderInput =
+    document.getElementById("newGender");
+
+
+  const name =
+    nameInput.value.trim();
+
+
+  if(!name){
+
+    nameInput.focus();
+
+    return;
+
+  }
+
+
+  const c =
+    db.classes[currentClass];
+
+
+  const student = {
+
+    id:
+      "student_" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .substring(2,8),
+
+    name:name,
+
+    gender:genderInput.value
+
+  };
+
+
+  c.students.push(student);
+
+  c.pos[student.id] = 0;
+
+  c.neg[student.id] = 0;
+
+  c.scores[student.id] = 0;
+
+
+  saveDatabase();
+
+  nameInput.value = "";
+
+  renderManage();
+
+  nameInput.focus();
+
+}
+
+
+/* =========================
+   REMOVE STUDENT
+========================= */
+
+function removeStudent(id){
+
+  const c =
+    db.classes[currentClass];
+
+
+  const student =
+    c.students.find(s => s.id === id);
+
+
+  if(!student) return;
+
+
+  const ok =
+    confirm(
+      "¿Eliminar a " +
+      student.name +
+      " de la clase?"
+    );
+
+
+  if(!ok) return;
+
+
+  c.students =
+    c.students.filter(
+      s => s.id !== id
+    );
+
+
+  delete c.pos[id];
+
+  delete c.neg[id];
+
+  delete c.scores[id];
+
+
+  saveDatabase();
+
+  renderManage();
+
+}
+
+
+/* =========================
+   UNDO
+========================= */
+
+function undo(){
+
+  /*
+    Per semplicità l'undo viene usato
+    per le azioni +1 / -1.
+  */
+
+  const last =
+    undoStack.pop();
+
+
+  if(!last){
+
+    document
+      .getElementById("lastAction")
+      .textContent =
+        "No hay ninguna acción para deshacer.";
+
+    return;
+
+  }
+
+
+  db =
+    JSON.parse(last.state);
+
+  saveDatabase();
+
+  render();
+
+
+  document
+    .getElementById("lastAction")
+    .textContent =
+      "Acción deshecha: " + last.text;
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+document
+  .getElementById("backBtn")
+  .onclick = goHome;
+
+
+document
+  .getElementById("headerHome")
+  .onclick = goHome;
+
+
+document
+  .getElementById("configBtn")
+  .onclick = openConfig;
+
+
+document
+  .getElementById("configBack")
+  .onclick = closeConfig;
+
+
+/* =========================
+   START
+========================= */
+
+loadDatabase();
+
+renderClasses();
+
 </script>
-</body></html>
+
+</body>
+</html>
